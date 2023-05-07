@@ -1,5 +1,7 @@
 const express = require("express");
 const {scrapeCamdenOneBed} = require("./scrapeCamdenOneBed");
+var CronJob = require('cron').CronJob;
+const cron = require("node-cron");
 const app = express();
 
 const PORT = process.env.PORT || 4000;
@@ -15,4 +17,10 @@ app.get("/", (req, res) =>{
 
 app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`);
+});
+
+cron.schedule("0 7 * * *", function() {
+    console.log("running cron job for scrapeCamden.....");
+    let no_res = "n";
+    scrapeCamdenOneBed(no_res);
 });

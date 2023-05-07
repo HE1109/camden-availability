@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 const {sendNotification} = require("./sendNotification");
+
 require("dotenv").config();
 
 const scrapeCamdenOneBed = async (res) => {
@@ -60,7 +61,10 @@ const scrapeCamdenOneBed = async (res) => {
       listOfApt.push(apartment.replace(/\s/g, ""));
     }
     sendNotification(listOfApt.join(", "), desiredFloorPlan);
+    if (res !== "n"){
     res.send(listOfApt.join(", "));
+    }
+
   } catch (e) {
     console.log(e);
   } finally {
