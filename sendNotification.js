@@ -1,5 +1,5 @@
 
-const sendNotification =  (listOfApt, floorPlan) => {
+const sendNotification =  (listOfApt, floorPlan, promotionValue) => {
     const express = require("express");
     const router = express();
     const fetch = require("node-fetch");
@@ -9,6 +9,7 @@ const sendNotification =  (listOfApt, floorPlan) => {
     var body = {
         value1: floorPlan,
         value2: listOfApt,
+        value3: promotionValue
       };
       
       fetch(webhook, {

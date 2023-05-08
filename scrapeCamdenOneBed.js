@@ -21,6 +21,16 @@ const scrapeCamdenOneBed = async (res) => {
 
   try {
     const page = await browser.newPage();
+    let promotionValue = "no promotion";
+    await page.goto("https://www.camdenliving.com/apartments/tempe-az/camden-tempe-west#overview");
+    let promotionXPath = "//div[contains(@class, 'mt-3') and contains(@class, 'rounded-sm') and contains(@class, 'info-teaser-saveup')]//div[contains(@class, 'mb-1') and contains(@class, 'text-base') and contains(@class, 'font-bold')]//p";
+
+    let promotionP = await page.$x(promotionXPath);
+    if (promotionP.length > 0){
+      promotionValue = await page.evaluate((el) => el.innerHTML, promotionP[0]);
+      console.log(promotionValue);
+    }
+    
 
     await page.goto(
       "https://www.camdenliving.com/apartments/tempe-az/camden-tempe-west/available-apartments"
@@ -31,8 +41,9 @@ const scrapeCamdenOneBed = async (res) => {
 
     const desiredFloorPlan = "The A5.2 - West";
     const xPath =
-      "//div[contains(@class, flex) and contains(@class, flex-wrap) and contains(@class, justify-start) and contains(@class, 'sm:justify-center') and contains(@class, 'sm:px-4')]//a[contains(@class, 'floor-plan-card-see-more-button')]";
+      "//div[contains(@class, 'flex') and contains(@class, 'flex-wrap') and contains(@class, 'justify-start') and contains(@class, 'sm:justify-center') and contains(@class, 'sm:px-4')]//a[contains(@class, 'floor-plan-card-see-more-button')]";
     let anchors = await page.$x(xPath);
+
 
     for (let i = 0; i < anchors.length; i++) {
       const currentFloorPlanName = await page.evaluate(
@@ -60,7 +71,7 @@ const scrapeCamdenOneBed = async (res) => {
       console.log(apartment.replace(/\s/g, ""));
       listOfApt.push(apartment.replace(/\s/g, ""));
     }
-    sendNotification(listOfApt.join(", "), desiredFloorPlan);
+    sendNotification(listOfApt.join(", "), desiredFloorPlan, promotionValue);
     if (res !== "n"){
     res.send(listOfApt.join(", "));
     }
