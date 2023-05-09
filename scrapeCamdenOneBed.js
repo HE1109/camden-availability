@@ -21,6 +21,8 @@ const scrapeCamdenOneBed = async (res) => {
 
   try {
     const page = await browser.newPage();
+    page.setDefaultNavigationTimeout(0); 
+
     let promotionValue = "no promotion";
     await page.goto("https://www.camdenliving.com/apartments/tempe-az/camden-tempe-west#overview");
     let promotionXPath = "//div[contains(@class, 'mt-3') and contains(@class, 'rounded-sm') and contains(@class, 'info-teaser-saveup')]//div[contains(@class, 'mb-1') and contains(@class, 'text-base') and contains(@class, 'font-bold')]//p";

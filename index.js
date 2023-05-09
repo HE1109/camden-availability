@@ -22,7 +22,7 @@ app.listen(PORT, () => {
     console.log(`listing on port ${PORT}`);
 });
 
-cron.schedule("30 0 * * *", function() {
+cron.schedule("10 1 * * *", function() {
     console.log("running cron job for scrapeCamden.....");
     let no_res = "n";
     scrapeCamdenOneBed(no_res);
